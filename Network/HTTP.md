@@ -20,33 +20,34 @@
 #### ❌ 1.1의 한계 
 - `Head of Line(HOL) Blocking` : 첫 번째 요청에 대한 응답이 지연되면, 후속 요청들은 처리가 완료될 때까지 무작정 대기해야하는 문제 발생 
 - 동기적 통신이 유지
-```
-클라이언트                       서버
-    |                          |
-    |---- 요청 1 (큰 파일) ---->  |
-    |                          | ← 처리 지연 발생
-    |---- 요청 2 (작은 파일) -->  | ← 대기
-    |                          |
-    |---- 요청 3 (작은 파일) -->  | ← 대기
 
-```
 
 #### Head of Line(HOL) Blocking 해결책
 ##### Pipelining
 - 서버 쪽으로 queue를 넘겨 fifo로 처리
+<img width="500" height="300" alt="image" src="https://github.com/user-attachments/assets/3c70d58c-2f92-4e79-ba6e-b3b15c523938" />
+
 - 여전히 첫 번째 요청을 서버에서 처리 못하면, 여전히 순서를 보장하지 못함
+
+<img width="230" height="423" alt="image" src="https://github.com/user-attachments/assets/8fcb89fe-4c42-4b93-80ed-e12dd7c604bc" />
 
 ##### Mutiple Connections
 - tcp 커넥션을 여러개 생성하여 병렬 연결
 -  누군가가 대역폭을 많이 차지한다면 latency 증가할 수 있음.
+
+<img width="219" height="327" alt="image" src="https://github.com/user-attachments/assets/6c90a903-b49a-40d5-92cc-e25c6c06f197" />
 
 
 
 ## Http 2
 동기적 통신 문제를 해결하기 위해 `멀티플렉싱(Multiplexing)`을 도입하여 하나의 tcp 연결을 통해 다수의 클라이언트 요청 처리가 가능해짐
 
+<img width="772" height="261" alt="image" src="https://github.com/user-attachments/assets/8a84dde9-89c4-40ea-8e91-f3fdc6d7853c" />
+
 - **Stream 구조**: 각 요청과 응답을 독립적인 스트림으로 취급하여, 데이터를 헤더와 데이터로 구성된 프레임단위로 분할
 - **비동기 처리**: 스트림들은 고유 식별자를 가지고 있어 순서에 상관없이 전송 및 처리될 수 있음
+  - 스트림 간 순서는 보장하지 않아도 됨
+  - 하나의 스트림 내부 프레임은 순서를 보장해야 함.
 - 헤더 압축(HPACK): 중복되는 헤더를 테이브로하 하여 전송량을 대폭 줄임
 - 서버 푸시: 클라이언트가 요청하지 않은 리소스를 서버가 미리 보내 성능 최적화
 - 바이터리 프로토콜: 텍스트 기반에서 바이너리 기반으로 변경하여 파싱 속도 향상
