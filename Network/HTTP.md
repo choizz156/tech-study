@@ -31,7 +31,7 @@
 
 <img width="230" height="423" alt="image" src="https://github.com/user-attachments/assets/8fcb89fe-4c42-4b93-80ed-e12dd7c604bc" />
 
-##### Mutiple Connections
+##### Multiple Connections
 - tcp 커넥션을 여러개 생성하여 병렬 연결
 -  누군가가 대역폭을 많이 차지한다면 latency 증가할 수 있음.
 
